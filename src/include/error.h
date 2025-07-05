@@ -1,4 +1,4 @@
 #pragma once
+#include "framebuffer.h"
 
-void kernel_panic(void);
-void idt_panic(void);
+void kernel_panic(const char* message);
