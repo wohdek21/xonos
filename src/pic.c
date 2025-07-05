@@ -14,12 +14,10 @@ static inline uint8_t inb(uint16_t port) {
 void pit_init(uint32_t hz) {
     uint16_t divisor = 1193182 / hz;
 
-    // Команда: channel 0, lobyte/hibyte, mode 3 (square wave), binary
     outb(0x43, 0x36);
 
-    // Отправляем делитель по байтам
-    outb(0x40, (uint8_t)(divisor & 0xFF));       // low byte
-    outb(0x40, (uint8_t)((divisor >> 8) & 0xFF)); // high byte
+    outb(0x40, (uint8_t)(divisor & 0xFF));       
+    outb(0x40, (uint8_t)((divisor >> 8) & 0xFF));
 }
 
 
@@ -35,22 +33,22 @@ void pit_init(uint32_t hz) {
 #define ICW4_8086       0x01
 
 void pic_remap(int offset1, int offset2) {
-    uint8_t a1 = inb(PIC1_DATA); // сохранить маски
+    uint8_t a1 = inb(PIC1_DATA);
     uint8_t a2 = inb(PIC2_DATA);
 
     outb(PIC1_COMMAND, ICW1_INIT | ICW1_ICW4);
     outb(PIC2_COMMAND, ICW1_INIT | ICW1_ICW4);
 
-    outb(PIC1_DATA, offset1); // новый offset
+    outb(PIC1_DATA, offset1); 
     outb(PIC2_DATA, offset2);
 
-    outb(PIC1_DATA, 4);       // tell PIC1 about PIC2 at IRQ2
-    outb(PIC2_DATA, 2);       // tell PIC2 its cascade identity
+    outb(PIC1_DATA, 4);       
+    outb(PIC2_DATA, 2);       
 
     outb(PIC1_DATA, ICW4_8086);
     outb(PIC2_DATA, ICW4_8086);
 
-    outb(PIC1_DATA, a1);      // восстановить маски
+    outb(PIC1_DATA, a1);    
     outb(PIC2_DATA, a2);
 
     outb(0x21, 0x00);

@@ -91,7 +91,6 @@ static void hcf(void) {
 }
 
 void int_to_str(uint64_t n, char* buf) {
-    // простой u64 -> строка (в конец буфера)
     char tmp[21];
     int i = 0;
 

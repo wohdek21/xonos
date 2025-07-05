@@ -18,7 +18,7 @@ irq_stub_\n:
     pushq %rbx
     pushq %rax
 
-    movq $\n, %rdi        # аргумент irq_handler(irq)
+    movq $\n, %rdi  
     call irq_handler
 
     popq %rax

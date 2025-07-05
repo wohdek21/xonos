@@ -13,7 +13,6 @@ extern uint64_t counter;
 
 extern void keyboard_handle_scancode(uint8_t scancode);
 
-// Объявляем обработчики из irq.S
 extern void irq_stub_0(void);
 extern void irq_stub_1(void);
 extern void irq_stub_2(void);
@@ -54,8 +53,7 @@ void irq_init(void) {
 
 
 void irq_handler(uint64_t irq) {
-    //draw_rect(0, 0, 5, 5, 0xFFFFFF00); // жёлтый пиксель слева вверху
-    if (irq == 1) { // клавиатура
+    if (irq == 1) {
         keyboard_handle_scancode(inb(0x60));
     }
 

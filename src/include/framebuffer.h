@@ -4,7 +4,6 @@
 #include <stddef.h>
 #include <limine.h>
 
-// Структура шрифта PSF
 typedef struct {
     uint8_t magic[2];
     uint8_t mode;
@@ -19,10 +18,8 @@ typedef struct {
     uint16_t bpp;
 } framebuffer_t;
 
-// Инициализация framebuffer и шрифта
 void fb_init(struct limine_framebuffer *fb, void* psf_font);
 
-// Примитивы
 void fb_put_pixel(uint64_t x, uint64_t y, uint32_t color);
 void fb_draw_char(uint64_t x, uint64_t y, char c, uint32_t fg);
 void fb_write_text(uint64_t x, uint64_t y, const char* s, uint32_t fg);

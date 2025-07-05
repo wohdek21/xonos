@@ -13,20 +13,15 @@ static void gdt_set_entry(int i, uint32_t base, uint32_t limit, uint8_t access, 
 }
 
 void gdt_init(void) {
-    // GDT[0] — null
     gdt_set_entry(0, 0, 0, 0, 0);
 
-    // GDT[1] — код (ring 0, exec, readable, present)
     gdt_set_entry(1, 0, 0xFFFFF, 0x9A, 0xA0);
 
-    // GDT[2] — данные (ring 0, writable, present)
     gdt_set_entry(2, 0, 0xFFFFF, 0x92, 0xC0);
 
-    // Указатель GDT
     gdt_descriptor.limit = sizeof(gdt) - 1;
     gdt_descriptor.base  = (uint64_t)&gdt;
 
-    // Загружаем GDT и сегменты
     asm volatile ("lgdt %0" : : "m"(gdt_descriptor));
     asm volatile (
     "mov $0x10, %%ax\n"

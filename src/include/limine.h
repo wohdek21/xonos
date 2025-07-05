@@ -1,4 +1,4 @@
-/* BSD Zero Clause License */
+
 
 /* Copyright (C) 2022-2025 Mintsuki and contributors.
  *
@@ -23,7 +23,7 @@ extern "C" {
 
 #include <stdint.h>
 
-/* Misc */
+
 
 #ifdef LIMINE_NO_POINTERS
 #  define LIMINE_PTR(TYPE) uint64_t
@@ -102,7 +102,7 @@ struct limine_file {
     struct limine_uuid part_uuid;
 };
 
-/* Boot info */
+
 
 #define LIMINE_BOOTLOADER_INFO_REQUEST { LIMINE_COMMON_MAGIC, 0xf55038d8e2a1202f, 0x279426fcf5f59740 }
 
@@ -118,7 +118,7 @@ struct limine_bootloader_info_request {
     LIMINE_PTR(struct limine_bootloader_info_response *) response;
 };
 
-/* Executable command line */
+
 
 #define LIMINE_EXECUTABLE_CMDLINE_REQUEST { LIMINE_COMMON_MAGIC, 0x4b161536e598651e, 0xb390ad4a2f1f303a }
 
@@ -133,7 +133,7 @@ struct limine_executable_cmdline_request {
     LIMINE_PTR(struct limine_executable_cmdline_response *) response;
 };
 
-/* Firmware type */
+
 
 #define LIMINE_FIRMWARE_TYPE_REQUEST { LIMINE_COMMON_MAGIC, 0x8c2f75d90bef28a8, 0x7045a4688eac00c3 }
 
@@ -153,7 +153,7 @@ struct limine_firmware_type_request {
     LIMINE_PTR(struct limine_firmware_type_response *) response;
 };
 
-/* Stack size */
+
 
 #define LIMINE_STACK_SIZE_REQUEST { LIMINE_COMMON_MAGIC, 0x224ef0460a8e8926, 0xe1cb0fc25f46ea3d }
 
@@ -168,7 +168,7 @@ struct limine_stack_size_request {
     uint64_t stack_size;
 };
 
-/* HHDM */
+
 
 #define LIMINE_HHDM_REQUEST { LIMINE_COMMON_MAGIC, 0x48dcf1cb8ad2b852, 0x63984e959a98244b }
 
@@ -183,7 +183,7 @@ struct limine_hhdm_request {
     LIMINE_PTR(struct limine_hhdm_response *) response;
 };
 
-/* Framebuffer */
+
 
 #define LIMINE_FRAMEBUFFER_REQUEST { LIMINE_COMMON_MAGIC, 0x9d5827dcd881dd75, 0xa3148604f6fab11b }
 
@@ -219,7 +219,7 @@ struct limine_framebuffer {
     uint8_t unused[7];
     uint64_t edid_size;
     LIMINE_PTR(void *) edid;
-    /* Response revision 1 */
+    
     uint64_t mode_count;
     LIMINE_PTR(struct limine_video_mode **) modes;
 };
@@ -236,7 +236,7 @@ struct limine_framebuffer_request {
     LIMINE_PTR(struct limine_framebuffer_response *) response;
 };
 
-/* Terminal */
+
 
 #define LIMINE_TERMINAL_REQUEST { LIMINE_COMMON_MAGIC, 0xc8ac59310c2b0844, 0xa68d0c7265d38878 }
 
@@ -254,7 +254,7 @@ struct limine_framebuffer_request {
 #define LIMINE_TERMINAL_CTX_RESTORE ((uint64_t)(-3))
 #define LIMINE_TERMINAL_FULL_REFRESH ((uint64_t)(-4))
 
-/* Response revision 1 */
+
 #define LIMINE_TERMINAL_OOB_OUTPUT_GET ((uint64_t)(-10))
 #define LIMINE_TERMINAL_OOB_OUTPUT_SET ((uint64_t)(-11))
 
@@ -296,7 +296,7 @@ struct LIMINE_DEPRECATED limine_terminal_request {
 
 LIMINE_DEPRECATED_IGNORE_END
 
-/* Paging mode */
+
 
 #define LIMINE_PAGING_MODE_REQUEST { LIMINE_COMMON_MAGIC, 0x95c1a0edab0944cb, 0xa4e5cb3842f7488a }
 
@@ -338,7 +338,7 @@ struct limine_paging_mode_request {
     uint64_t min_mode;
 };
 
-/* 5-level paging */
+
 
 #define LIMINE_5_LEVEL_PAGING_REQUEST { LIMINE_COMMON_MAGIC, 0x94469551da9b3192, 0xebe5e86db7382888 }
 
@@ -356,7 +356,7 @@ struct LIMINE_DEPRECATED limine_5_level_paging_request {
 
 LIMINE_DEPRECATED_IGNORE_END
 
-/* MP */
+
 
 #if LIMINE_API_REVISION >= 1
 #  define LIMINE_MP_REQUEST { LIMINE_COMMON_MAGIC, 0x95a67b819a1b857e, 0xa0b61b723b6a73e0 }
@@ -453,7 +453,7 @@ struct LIMINE_MP(request) {
     uint64_t flags;
 };
 
-/* Memory map */
+
 
 #define LIMINE_MEMMAP_REQUEST { LIMINE_COMMON_MAGIC, 0x67cf3d9d378a806f, 0xe304acdfc50c3c62 }
 
@@ -488,7 +488,7 @@ struct limine_memmap_request {
     LIMINE_PTR(struct limine_memmap_response *) response;
 };
 
-/* Entry point */
+
 
 #define LIMINE_ENTRY_POINT_REQUEST { LIMINE_COMMON_MAGIC, 0x13d86c035a1cd3e1, 0x2b0caa89d8f3026a }
 
@@ -505,7 +505,7 @@ struct limine_entry_point_request {
     LIMINE_PTR(limine_entry_point) entry;
 };
 
-/* Executable File */
+
 
 #if LIMINE_API_REVISION >= 2
 #  define LIMINE_EXECUTABLE_FILE_REQUEST { LIMINE_COMMON_MAGIC, 0xad97e90e83f1ed67, 0x31eb5d1c5ff23b69 }
@@ -540,7 +540,7 @@ struct limine_kernel_file_request {
 #endif
 };
 
-/* Module */
+
 
 #define LIMINE_MODULE_REQUEST { LIMINE_COMMON_MAGIC, 0x3e7e279702be32af, 0xca1c4f3bd1280cee }
 
@@ -568,12 +568,12 @@ struct limine_module_request {
     uint64_t revision;
     LIMINE_PTR(struct limine_module_response *) response;
 
-    /* Request revision 1 */
+    
     uint64_t internal_module_count;
     LIMINE_PTR(struct limine_internal_module **) internal_modules;
 };
 
-/* RSDP */
+
 
 #define LIMINE_RSDP_REQUEST { LIMINE_COMMON_MAGIC, 0xc5e77b6b397e7b43, 0x27637845accdcf3c }
 
@@ -592,7 +592,7 @@ struct limine_rsdp_request {
     LIMINE_PTR(struct limine_rsdp_response *) response;
 };
 
-/* SMBIOS */
+
 
 #define LIMINE_SMBIOS_REQUEST { LIMINE_COMMON_MAGIC, 0x9e9046f11e095391, 0xaa4a520fefbde5ee }
 
@@ -613,7 +613,7 @@ struct limine_smbios_request {
     LIMINE_PTR(struct limine_smbios_response *) response;
 };
 
-/* EFI system table */
+
 
 #define LIMINE_EFI_SYSTEM_TABLE_REQUEST { LIMINE_COMMON_MAGIC, 0x5ceba5163eaaf6d6, 0x0a6981610cf65fcc }
 
@@ -632,7 +632,7 @@ struct limine_efi_system_table_request {
     LIMINE_PTR(struct limine_efi_system_table_response *) response;
 };
 
-/* EFI memory map */
+
 
 #define LIMINE_EFI_MEMMAP_REQUEST { LIMINE_COMMON_MAGIC, 0x7df62a431d6872d5, 0xa4fcdfb3e57306c8 }
 
@@ -650,7 +650,7 @@ struct limine_efi_memmap_request {
     LIMINE_PTR(struct limine_efi_memmap_response *) response;
 };
 
-/* Date at boot */
+
 
 #if LIMINE_API_REVISION >= 3
 #  define LIMINE_DATE_AT_BOOT_REQUEST { LIMINE_COMMON_MAGIC, 0x502746e184c088aa, 0xfbc5ec83e6327893 }
@@ -685,7 +685,7 @@ struct limine_boot_time_request {
 #endif
 };
 
-/* Executable address */
+
 
 #if LIMINE_API_REVISION >= 2
 #  define LIMINE_EXECUTABLE_ADDRESS_REQUEST { LIMINE_COMMON_MAGIC, 0x71ba76863cc55f63, 0xb2644a48c516a487 }
@@ -717,7 +717,7 @@ struct limine_kernel_address_request {
 #endif
 };
 
-/* Device Tree Blob */
+
 
 #define LIMINE_DTB_REQUEST { LIMINE_COMMON_MAGIC, 0xb40ddb48fb54bac7, 0x545081493f81ffb7 }
 
@@ -732,7 +732,7 @@ struct limine_dtb_request {
     LIMINE_PTR(struct limine_dtb_response *) response;
 };
 
-/* RISC-V Boot Hart ID */
+
 
 #define LIMINE_RISCV_BSP_HARTID_REQUEST { LIMINE_COMMON_MAGIC, 0x1369359f025525f9, 0x2ff2a56178391bb6 }
 

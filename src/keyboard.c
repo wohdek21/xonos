@@ -24,12 +24,12 @@ int strcmp(const char* s1, const char* s2) {
 
 
 void print_prompt(void) {
-    fb_write_text(cursor_x, cursor_y, "kernel> ", 0x00FFFF); // бирюзовый
+    fb_write_text(cursor_x, cursor_y, "kernel> ", 0x00FFFF);
     cursor_x += 8 * 8;
 }
 
 static void clear_screen() {
-    fb_draw_rect(0, 0, 640, 480, 0x000000); // очистить весь экран
+    fb_draw_rect(0, 0, 640, 480, 0x000000);
     cursor_x = 0;
     cursor_y = 0;
     print_prompt();
