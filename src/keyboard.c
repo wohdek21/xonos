@@ -5,7 +5,6 @@
 #include <stdint.h>
 
 extern void print_prompt(void);
-extern uint8_t code_buffer[64];
 
 static const char scancode_set1[128] = {
     0, 27, '1','2','3','4','5','6','7','8','9','0','-','=', '\b',
@@ -39,16 +38,9 @@ static void clear_screen() {
     print_prompt();
 }
 
-static void run_user_program(void) {
-    fb_write_text(0, cursor_y += 16, "Running...", 0xFFFF00);
-    ((void(*)())code_buffer)();
-}
-
 static void parse_command(const char* cmd) {
     if (strcmp(cmd, "clear") == 0) {
         clear_screen();
-    } else if (strcmp(cmd, "run") == 0) {
-        run_user_program();
     } else {
         fb_write_text(0, cursor_y += 16, "Unknown command", 0xFF0000);
     }

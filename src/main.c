@@ -11,6 +11,8 @@
 #include "time.h"
 #include "keyboard.h"
 #include "mem.h"
+#include "paging.h"
+
 
 __attribute__((used, section(".limine_requests")))
 static volatile LIMINE_BASE_REVISION(3);
@@ -61,25 +63,6 @@ void int_to_str(uint64_t n, char* buf) {
     buf[i] = '\0';
 }
 
-void hello_from_memory(void) {
-    fb_write_text(0, 300, ">>> Hello from memory!", 0x00FF00);
-}
-
-__attribute__((section(".data")))
-uint8_t code_buffer[64] = {0};
-
-
-void prepare_code_buffer(void) {
-    uint64_t addr = (uint64_t)(uintptr_t)&hello_from_memory;
-
-    code_buffer[0] = 0x48;
-    code_buffer[1] = 0xB8;
-    memcpy(&code_buffer[2], &addr, 8);
-    code_buffer[10] = 0xFF;
-    code_buffer[11] = 0xD0;
-    code_buffer[12] = 0xC3;
-}
-
 static void hcf(void) {
     for (;;) asm ("hlt");
 }
@@ -94,6 +77,16 @@ void kmain(void) {
     struct limine_framebuffer* fb = framebuffer_request.response->framebuffers[0];
     fb_init(fb, &_binary_font_start); 
     mem_init(memmap_request.response);
+    paging_init(mem_total());
+
+    uint64_t test_val = 0xCAFEBABE;
+    uint64_t phys = paging_get_phys((uint64_t)&test_val);
+    
+    char buf[32];
+    int_to_str(phys, buf);
+    fb_write_text(0, 64, "Test phys addr: ", 0x00FF00);
+    fb_write_text(160, 64, buf, 0x00FF00);
+    
 
     gdt_init();
     idt_init();
@@ -101,8 +94,6 @@ void kmain(void) {
     irq_init();
     pit_init(1000);
     asm volatile("sti");
-
-    prepare_code_buffer();
 
     print_prompt();
 
